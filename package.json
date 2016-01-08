@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sunilkumarbr/projectApp.git"
+    "url": "https://github.com/sunilkumarbr/projectManagementSystem.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
