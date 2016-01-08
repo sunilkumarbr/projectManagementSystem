@@ -1,0 +1,244 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: #EfFFFF;
+}
+
+#newProject {
+    padding-top: 15px;
+    text-align: center;
+    width: 500px;
+    height: 400px;
+    background: #03A89E;
+    display: none;
+    position: absolute;
+    z-index: 2;
+    box-shadow: 0px 5px 30px gray;
+    border-radius: 5px;
+    margin: auto;
+    border: 1px solid #B0c0B0;
+}
+
+#newProject input {
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    width: 200px;
+    font-size: 15px;
+    height: 30px;
+    outline: none;
+    border: none;
+    background: #EDEDED;
+    box-shadow: 1px 1px 10px gray;
+}
+
+#newProject textarea {
+    font-family: 'Open Sans', sans-serif;
+    resize: none;
+    text-align: center;
+    font-size: 15px;
+    width: 350px;
+    height: 120px;
+    outline: none;
+    border: none;
+    background: #EDEDED;
+    box-shadow: 1px 1px 10px gray;
+}
+
+#newProject button {
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    width: 120px;
+    height: 35px;
+    background: #00868B;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+}
+
+#newProject button:hover {
+    background: #007070;
+}
+
+#newProjectCancle {
+    position: absolute;
+    bottom: 30px;
+    right: 80px;
+}
+
+#ProjectEdit,
+#newProjectAdd {
+    position: absolute;
+    bottom: 30px;
+    left: 80px;
+}
+
+#wrapper {
+    /*background: gray;*/
+    position: absolute;
+    box-shadow: 5px 5px 50px gray;
+    background: white;
+    border: 1px solid #e0e0e0;
+}
+
+strong {
+    font-size: 15px;
+}
+
+a {
+    font-size: 15px;
+    padding-top: 4px;
+    text-align: center;
+    color: #050505;
+    position: absolute;
+    width: 80px;
+    height: 30px;
+    background: #66CDAA;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+a:hover {
+    background: #6aDfaf;
+    text-decoration: none;
+}
+
+#header {
+    position: absolute;
+    top: 0;
+    padding: 0;
+    margin: 0;
+    height: 80px;
+    background: #008080;
+    /*width:1000px;*/
+    box-shadow: 0px 2px 10px gray;
+}
+
+#header h1 {
+    position: absolute;
+    top: 15px;
+    left: 80px;
+}
+
+#header img {
+    position: absolute;
+    top: 8px;
+    left: 15px;
+}
+
+#update table th,
+#update table td {
+    text-align: center;
+}
+
+#update table tr:first-child {
+    background: #e0e0e0;
+}
+
+#update table tr:first-child:hover {
+    background: #e0e0e0;
+}
+
+#update table tr:hover {
+    background: #F0FFF0;
+}
+
+#update table th {
+    font-size: 16px;
+    color: #9DB68C;
+}
+
+#update table td {
+    color: #474747;
+}
+
+#add {
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    color: white;
+    width: 100px;
+    height: 30px;
+    background: #3E7A5E;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+}
+
+#add:hover {
+    background: #3E6B4F;
+}
+
+.delete {
+    width: 60px;
+    height: 30px;
+    background: #E35152;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+}
+
+.delete:hover {
+    background: #EB5E66;
+}
+
+.edit:hover {
+    background: #70DB93;
+}
+
+.edit {
+    width: 45px;
+    height: 30px;
+    background: #71C671;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+}
+
+#deleteAlert {
+    padding-top: 15px;
+    text-align: center;
+    width: 300px;
+    height: 180px;
+    background: #03A89E;
+    display: none;
+    position: absolute;
+    z-index: 2;
+    box-shadow: 0px 5px 30px gray;
+    border-radius: 5px;
+    margin: auto;
+    border: 1px solid #B0c0B0;
+}
+
+#background {
+    z-index: 1;
+    position: fixed;
+    display: none;
+    background: transparent;
+    background-color: #ccc;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    opacity: 0.4;
+}
+
+#deleteAlert button {
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    width: 120px;
+    height: 35px;
+    background: #00868B;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    margin-top: 30px;
+}
+
+#deleteAlert h4 {
+    margin-top: 20px;
+}
+
+#deleteAlert button:hover {
+    background: #007070;
+}

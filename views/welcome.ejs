@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>welcome</title>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/dashboard.css">
+
+</head>
+
+<body>
+	<div id='header'>
+		<img src='/img/chart6.png'/>
+		<h1>Project Dashboard</h1>
+		<a  href='/logout'>Logout</a><br/><br/>
+	</div>
+
+	<button id='add' type='text'>Add new*</button><br/><br/>
+
+	<div id='wrapper'>
+		<div id='update'>
+		</div>
+	</div>
+
+	<div id='newProject'>
+		<strong>Name:</strong><br/><input id='name' type='text' /><br/>
+		<strong>description:</strong><br/><textarea name="desc" id='description' rows='3' cols='30'></textarea><br/>
+		<strong>start date:</strong><br/><input id='startDate' type='date' /><br/>
+		<strong>due date:</strong><br/><input id='dueDate' type='date' /><br/>
+		<button id='newProjectAdd' type='text'>Add</button>
+		<button id='ProjectEdit' type='text'>Update</button>
+		<button id='newProjectCancle' type='text'>cancle</button>
+	</div>
+	<div id="background"></div>
+
+	<div id="deleteAlert">
+		<h4>Do you want to delete this project details...?</h4>
+		<button type="text" id='deleteAlertOk'>Yes</button>
+		<button type="text" id='deleteAlertNo'>No</button>
+	</div>
+</body>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script>
+
+	date=new Date();
+	d=date.getDate();
+	m=date.getMonth();
+	y=date.getFullYear();
+	m++;
+
+	var reco=<%-JSON.stringify(record)%>;
+	var tabledata='<table class="table table-hover"><tr><th>Name</th><th>Description</th><th>start date</th><th>due date</th><th colspan="2">Action</th></tr>';
+	for(var i=0;i<reco.length;i++){
+		tabledata+='<tr><td>'+reco[i].name+'</td><td>'+reco[i].description+'</td><td>'+reco[i].sDate+'</td><td>'+reco[i].dDate+'</td><td><button class="edit" type="text" id='+reco[i]._id+'>edit</button></td><td><button class="delete" type="text" id='+reco[i]._id+'>delete</button></td></tr>';
+	}
+	tabledata+='</table>'
+	$('#update').html(tabledata);
+
+
+	$(window).resize(function() {
+	    windowWidth = $(window).width();
+   		windowHeight = $(window).height();
+    	$('#newProject').css('top', windowHeight/2-215).css('left', windowWidth / 2 - 250);
+    	$('#wrapper').css('top', '160px').css('left', '75px');
+    	$('#wrapper').css('width', windowWidth-150).css('height', 'auto');
+    	$('a').css('top', '25px').css('right', '25px');
+    	$('#header').css('width',windowWidth);
+    	$('#deleteAlert').css('top', windowHeight/2-90).css('left', windowWidth / 2 - 150);
+	});
+
+	$(document).ready(function(){
+		windowWidth = $(window).width();
+   		windowHeight = $(window).height();
+    	$('#newProject').css('top', windowHeight/2-215).css('left', windowWidth / 2 - 250);
+    	$('#wrapper').css('top', '160px').css('left', '75px');
+    	$('#wrapper').css('width', windowWidth-150).css('height', 'auto');
+    	$('a').css('top', '25px').css('right', '25px');
+    	$('#header').css('width',windowWidth);
+
+    	$('#deleteAlert').css('top', windowHeight/2-90).css('left', windowWidth / 2 - 150);
+	});
+
+	$('#add').on('click',function(){
+		$('#newProject').fadeIn(500);
+		$('#newProjectAdd').css('display','block');
+		$('#background').css('display','block')
+		$('#ProjectEdit').css('display','none');
+		$('#name').focus();
+		$('#startDate').val(y+'-'+m+'-'+d);
+
+	});
+
+	$('#newProjectCancle').on('click',function(){
+		$('#name').val('');
+		$('#description').val('');
+		$('#startDate').val('');
+		$('#dueDate').val('');
+		$('#newProject').fadeOut(500);
+		$('#background').css('display','none')
+		$('#description').css('background','#EDEDED');
+		$('#name').css('background','#EDEDED');
+	});
+
+	$('#newProjectAdd').on('click',function(){
+		aName=$('#name').val();
+		aDescription=$('#description').val();
+		aSdate=$('#startDate').val();
+		aDdate=$('#dueDate').val();
+
+		if(aName===''||aDescription===''){
+			if(aName===''){
+				$('#description').css('background','#EDEDED');
+				$('#name').css('background','#F5DEB3');
+				$('#name').focus();
+			}
+			else{
+				$('#name').css('background','#EDEDED');
+				$('#description').css('background','#F5DEB3');
+				$('#description').focus();
+			}
+		}
+		else{
+			$('#description').css('background','#EDEDED');
+			$('#name').css('background','#EDEDED');
+
+			$.post('/add',{name:aName,description:aDescription,sDate:aSdate,dDate:aDdate},function(data){
+					var tabledata='<table class="table table-hover"><tr><th>Name</th><th>Description</th><th>start date</th><th>due date</th><th colspan="2">Action</th></tr>';
+					for(var i=0;i<data.length;i++){
+						tabledata+='<tr><td>'+data[i].name+'</td><td>'+data[i].description+'</td><td>'+data[i].sDate+'</td><td>'+data[i].dDate+'</td><td><button class="edit" type="text" id='+data[i]._id+'>edit</button></td><td><button class="delete" type="text" id='+data[i]._id+'>delete</button></td></tr>';
+					}
+					tabledata+='</table>'
+					$('#update').html(tabledata);
+					$.ajax({
+					    url: "",
+					    context: document.body,
+					    success: function(s,x){
+					        $(this).html(s);
+					    }
+					});
+			});
+		}
+	});
+
+				
+var eid;
+
+	$('.edit').on('click',function(){
+		eid=$(this)[0].id;
+		$('#name').val($(this).parent().parent().children().eq(0).text());
+		$('#description').val($(this).parent().parent().children().eq(1).text());
+		$('#startDate').val($(this).parent().parent().children().eq(2).text());
+		$('#dueDate').val($(this).parent().parent().children().eq(3).text());
+
+		$('#newProject').fadeIn(500);
+		$('#ProjectEdit').css('display','block');
+		$('#newProjectAdd').css('display','none');
+		$('#background').css('display','block');
+	});
+
+	$('#ProjectEdit').on('click',function(){
+		aName=$('#name').val();
+		aDescription=$('#description').val();
+		aSdate=$('#startDate').val();
+		aDdate=$('#dueDate').val();
+		$.post('/edit',{id:eid,name:aName,description:aDescription,sDate:aSdate,dDate:aDdate},function(data){
+				var tabledata='<table class="table table-hover"><tr><th>Name</th><th>Description</th><th>start date</th><th>due date</th><th colspan="2">Action</th></tr>';
+				for(var i=0;i<data.length;i++){
+					tabledata+='<tr><td>'+data[i].name+'</td><td>'+data[i].description+'</td><td>'+data[i].sDate+'</td><td>'+data[i].dDate+'</td><td><button class="edit" type="text" id='+data[i]._id+'>edit</button></td><td><button class="delete" type="text" id='+data[i]._id+'>delete</button></td></tr>';
+				}
+				tabledata+='</table>'
+				$('#update').html(tabledata);
+				$.ajax({
+				    url: "",
+				    context: document.body,
+				    success: function(s,x){
+				        $(this).html(s);
+				    }
+				});
+		});
+	});
+
+
+var delid;
+
+	$('#deleteAlertOk').on('click',function(){
+		$.post('/delete',{id:delid},function(data){
+				var tabledata='<table class="table table-hover"><tr><th>Name</th><th>Description</th><th>start date</th><th>due date</th></tr>';
+				for(var i=0;i<data.length;i++){
+					tabledata+='<tr><td>'+data[i].name+'</td><td>'+data[i].description+'</td><td>'+data[i].sDate+'</td><td>'+data[i].dDate+'</td><td><button class="edit" type="text" id='+data[i]._id+'>edit</button></td><td><button class="delete" type="text" id='+data[i]._id+'>delete</button></td></tr>';
+				}
+				tabledata+='</table>'
+				$('#update').html(tabledata);
+				$.ajax({
+				    url: "",
+				    context: document.body,
+				    success: function(s,x){
+				        $(this).html(s);
+				    }
+				});
+		});
+		$('#deleteAlert').fadeOut(500);
+		$('#background').css('display','none');
+	});
+
+
+	$('.delete').on('click',function(){
+		delid=$(this)[0].id;
+		$('#deleteAlert').fadeIn(500);
+		$('#background').css('display','block');
+	});
+
+	$('#deleteAlertNo').on('click',function(){
+		$('#deleteAlert').fadeOut(500);
+		$('#background').css('display','none');
+	});
+
+</script>
+
+</html>

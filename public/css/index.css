@@ -1,0 +1,143 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0px;
+    padding: 0px;
+    background: url(/img/background3.jpg);
+}
+
+#wrapper {
+    margin: auto;
+    width: 500px;
+    height: 590px;
+    position: relative;
+    top: 60px;
+}
+
+#login {
+    position: absolute;
+    left: 29px;
+    top: 1px;
+    width: 55px;
+    height: 55px;
+    border-radius: 100px;
+    background: url(/img/login1.png) no-repeat center;
+}
+
+#signup {
+    position: absolute;
+    left: 96px;
+    top: 0.4px;
+    width: 55px;
+    height: 55px;
+    border-radius: 100px;
+    background: url(/img/signup2.png) no-repeat center;
+}
+
+#loginForm {
+    color: #1B6453;
+    position: absolute;
+    top: 80px;
+    width: 350px;
+    height: 0px;
+    background: #009688;
+    box-shadow: 0px 5px 10px gray;
+}
+
+#signupForm {
+    color: #00868B;
+    position: absolute;
+    top: 80px;
+    width: 300px;
+    height: 0px;
+    background: #20B2AA;
+    display: none;
+    box-shadow: 0px 5px 10px gray;
+}
+
+#triangle-up {
+    position: absolute;
+    top: 50px;
+    left: 35px;
+    width: 0px;
+    height: 0px;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 0px solid orange;
+}
+
+#lForm,
+#sForm {
+    text-align: center;
+}
+
+input {
+    font-size: 16px;
+    text-align: center;
+    width: 250px;
+    height: 30px;
+    margin-bottom: 20px;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+}
+
+input:focus {
+    box-shadow: 1px 1px 8px black;
+}
+
+button {
+    font-size: 15px;
+    background: #218868;
+    width: 150px;
+    height: 30px;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+}
+
+button:hover {
+    box-shadow: 1px 1px 20px black;
+}
+
+h1 {
+    text-align: center;
+}
+
+#lForm {
+    display: none;
+}
+
+#loader {
+    margin: auto;
+    margin-top: 25px;
+    display: none;
+}
+
+#loginMessage {
+    text-align: center;
+    margin-top: 25px;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 18px;
+    font-weight: none;
+}
+
+#signupForm button {
+    width: 100px;
+    background: #20BF9F;
+}
+
+#signupMessage {
+    text-align: center;
+    margin-top: 25px;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 18px;
+    font-weight: none;
+}
+
+#verify {
+    display: none;
+    margin-left: 95px;
+    height: 50px;
+}
