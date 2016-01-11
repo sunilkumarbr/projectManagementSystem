@@ -122,7 +122,7 @@ app.post('/signup', function(req, res) {
                               from: 'project-management-system <postmaster@sandbox19934a8f22484a7e99897c77e42d546d.mailgun.org>',
                               to: req.body.email,
                               subject: 'email-verification',
-                              html: '<h3>Thankyou for registering, Complete Your Activation to Get Started....<br/>click the below link to confirm email-id</h3><p><a href="http://localhost:3232/confirm/' + token + '">http://localhost:3232/confirm/' + token + '</a>'
+                              html: '<h3>Thankyou for registering, Complete Your Activation to Get Started....<br/>click the below link to confirm email-id</h3><p><a href="http://'+req.headers.host+'/confirm/'+ token + '">'+'http://'+req.headers.host+'/confirm/' + token + '</a>'
                             };
                              
                             mailgun.messages().send(data, function (error, body) {
@@ -321,7 +321,7 @@ app.post('/verifictionLinkResend', function(req, res) {
                       from: 'project-management-system <postmaster@sandbox19934a8f22484a7e99897c77e42d546d.mailgun.org>',
                       to: req.body.email,
                       subject: 'verification-resend',
-                      html: '<h3>Thankyou for registering, Complete Your Activation to Get Started....<br/>click the below link to confirm email-id</h3><p><a href="http://localhost:3232/confirm/' + r[0].authentication.token + '">http://localhost:3232/confirm/' + r[0].authentication.token + '</a>'
+                      html: '<h3>Thankyou for registering, Complete Your Activation to Get Started....<br/>click the below link to confirm email-id</h3><p><a href="http://'+req.headers.host+'/confirm/' + r[0].authentication.token + '">http://'+req.headers.host+'/confirm/' + r[0].authentication.token + '</a>'
                     };
                      
                  mailgun.messages().send(data, function (error, body) {
