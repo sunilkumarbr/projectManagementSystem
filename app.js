@@ -4,7 +4,7 @@ var bodyparser = require('body-parser');
 var mongo = require('mongodb');
 var emailExistence = require('email-existence');
 var randToken = require('rand-token');
-var nodemailer = require('nodemailer');
+
 var session = require('express-session');
 var ejs = require('ejs');
 
@@ -27,13 +27,9 @@ app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
 
 /***********************email configuration************************/
-var transporter = nodemailer.createTransport('SMTP', {
-    service: 'gmail',
-    auth: {
-        user: 'no.replay.assignment9@gmail.com',
-        pass: 'assignment9'
-    }
-});
+var api_key = 'key-5a991ef3f090ef55a0a9b10b22a302c5';
+var domain = 'sandbox19934a8f22484a7e99897c77e42d546d.mailgun.org';
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 
 /***********************connection to mongodb************************/
 var db;
@@ -97,6 +93,7 @@ function loaduser(req, res, next) {
 
 /***********************signup, for the new user************************/
 app.post('/signup', function(req, res) {
+    console.log('inside signup 1');
     collection.count({
         email: req.body.email
     }, function(e, c) {
@@ -107,6 +104,7 @@ app.post('/signup', function(req, res) {
                 result: 'You are already registered'
             });
         else {
+            console.log('inside signup2');
             emailExistence.check(req.body.email, function(err, r) {
                 if (err || r === false)
                     res.send({
@@ -116,33 +114,40 @@ app.post('/signup', function(req, res) {
                 else {
                     if (r === true) {
                         var token = randToken.generate(50);
-                        collection.insert({
-                            email: req.body.email,
-                            password: req.body.password,
-                            authentication: {
-                                token: token,
-                                activate: false
-                            }
-                        });
+                       
 
-                        var mailOption = {
-                            to: req.body.email,
-                            subject: 'email-verification',
-                            generateTextFromHTML: true,
-                            html: '<h3>Thankyou for registering, Complete Your Activation to Get Started....<br/>click the below link to confirm email-id</h3><p><a href="http://localhost:3232/confirm/' + token + '">http://localhost:3232/confirm/' + token + '</a>'
-                        };
-                        transporter.sendMail(mailOption, function(e, r) {
-                            if (e)
-                                console.log('send err:' + e);
-                            else
-                                console.log('sent:', r);
-                        });
+                        console.log('inside signup last');
+
+                        var data = {
+                              from: 'project-management-system <postmaster@sandbox19934a8f22484a7e99897c77e42d546d.mailgun.org>',
+                              to: req.body.email,
+                              subject: 'email-verification',
+                              html: '<h3>Thankyou for registering, Complete Your Activation to Get Started....<br/>click the below link to confirm email-id</h3><p><a href="http://localhost:3232/confirm/' + token + '">http://localhost:3232/confirm/' + token + '</a>'
+                            };
+                             
+                            mailgun.messages().send(data, function (error, body) {
+                                if(error) throw res.send(error);
+                                
+                                else {
+                                    console.log(body);
+                                     collection.insert({
+                                            email: req.body.email,
+                                            password: req.body.password,
+                                            authentication: {
+                                                token: token,
+                                                activate: false
+                                            }
+                                        });
+                                // res.send(body);
+                                    res.send({
+                                        status: 1,
+                                        result: 'signed-up successfully, check your mail in-box to confirm the mail-id'
+                                    });
+                                }
+                            });
 
 
-                        res.send({
-                            status: 1,
-                            result: 'signed-up successfully, check your mail in-box to confirm the mail-id'
-                        });
+                        
                     }
                 }
             });
@@ -310,22 +315,28 @@ app.post('/verifictionLinkResend', function(req, res) {
                     result: 'invalid email address, signup up if you dont have account'
                 });
             else {
-                var mailOption = {
-                    to: req.body.email,
-                    subject: 'email-verification',
-                    generateTextFromHTML: true,
-                    html: '<h3>Thankyou for registering, Complete Your Activation to Get Started....<br/>click the below link to confirm email-id</h3><p><a href="http://localhost:3232/confirm/' + r[0].authentication.token + '">http://localhost:3232/confirm/' + r[0].authentication.token + '</a>'
-                };
-                transporter.sendMail(mailOption, function(e, r) {
-                    if (e)
-                        console.log('send err:' + e);
-                    else
-                        console.log('sent:', r);
+               
+
+                var data = {
+                      from: 'project-management-system <postmaster@sandbox19934a8f22484a7e99897c77e42d546d.mailgun.org>',
+                      to: req.body.email,
+                      subject: 'verification-resend',
+                      html: '<h3>Thankyou for registering, Complete Your Activation to Get Started....<br/>click the below link to confirm email-id</h3><p><a href="http://localhost:3232/confirm/' + r[0].authentication.token + '">http://localhost:3232/confirm/' + r[0].authentication.token + '</a>'
+                    };
+                     
+                 mailgun.messages().send(data, function (error, body) {
+                        if(error) throw res.send(error);
+                                
+                        else {
+                            console.log(body);
+                            res.send({
+                                status: 1,
+                                result: 'activation link have been sent to your mail address, Please check and confirm now'
+                            });       
+                        }
                 });
-                res.send({
-                    status: 1,
-                    result: 'activation link have been sent to your mail address, Please check and confirm now'
-                });
+   
+                
             }
         }
     });
